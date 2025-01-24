@@ -1,8 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -34,25 +31,28 @@ public class Main {
             String mazeFilePath = cmd.getOptionValue("i");
             logger.info("Reading the maze from file: " + mazeFilePath);
 
-            BufferedReader reader = new BufferedReader(new FileReader(mazeFilePath));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        logger.trace("WALL ");
-                    } else if (line.charAt(idx) == ' ') {
-                        logger.trace("PASS ");
+            Maze maze = new Maze(mazeFilePath);
+            char[][] mazeArray = maze.makeArray();
+            if (mazeArray != null) {
+                for (int i = 0; i < mazeArray.length; i++) {
+                    for (int j = 0; j < mazeArray[i].length; j++) {
+                        System.out.print(mazeArray[i][j]);
                     }
+                    System.out.println();
                 }
-                logger.trace(System.lineSeparator());
             }
-            reader.close();
+            
+            MazeRunner sequence = new MazeRunner(mazeArray);
+            
+
+            logger.info("**** Computing path");
+            logger.info("sequence of moves is " + sequence.GenerateSequence());
+            logger.info("** End of MazeRunner");
+            
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
-        logger.info("**** Computing path");
-        logger.error("PATH NOT COMPUTED");
-        logger.info("** End of MazeRunner");
+        
     }
 }
