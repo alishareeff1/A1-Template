@@ -50,4 +50,139 @@ public class Shortest_MazeRunner extends MazeRunner {
         System.out.println(exit_row);
     } 
 
+    public String Add_Sequence() {
+        StringBuilder sequence = new StringBuilder();
+        int row = entrance;
+        int col = 0;
+        String direction = "right";
+        System.out.println("starting add sequence method");
+        System.out.println("exit col is " + exit_col);
+        System.out.println("entrance row is" + entrance);
+    
+        try {
+            while (true) {
+                System.out.println("At position: (" + row + ", " + col + "), direction: " + direction);
+                if (direction.equals("right")) {
+                    if (maze[row + 1][col] == '#') {
+                        if (maze[row][col + 1] == 'P') {
+                            sequence.append("F");
+                            col++;
+                            System.out.println(col);
+                            if (col == exit_col) {
+                                break;
+                            }
+                            System.out.println("F");
+                        } else {
+                            if (maze[row - 1][col] == '#') {
+                                direction = "left";
+                                sequence.append("LL");
+                                sequence.append("F");
+                                col--;
+                            } else {
+                                direction = "up";
+                                sequence.append("L");
+                                sequence.append("F");
+                                row--;
+                            }
+                        }
+                    } else {
+                        direction = "down";
+                        sequence.append("R");
+                        sequence.append("F");
+                        row++;
+                    }
+                } else if (direction.equals("down")) {
+                    if (maze[row][col - 1] == '#') {
+                        if (maze[row + 1][col] == 'P') {
+                            sequence.append("F");
+                            row++;
+                        } else {
+                            if (maze[row][col + 1] == '#') {
+                                direction = "up";
+                                sequence.append("LL");
+                                sequence.append("F");
+                                row--;
+                            } else {
+                                direction = "right";
+                                sequence.append("L");
+                                sequence.append("F");
+                                col++;
+                                System.out.println(col);
+                                if (col == exit_col) {
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        direction = "left";
+                        sequence.append("R");
+                        sequence.append("F");
+                        col--;
+                    }
+                } else if (direction.equals("left")) {
+                    if (maze[row - 1][col] == '#') {
+                        if (maze[row][col - 1] == 'P') {
+                            sequence.append("F");
+                            col--;
+                        } else {
+                            if (maze[row + 1][col] == '#') {
+                                direction = "right";
+                                sequence.append("LL");
+                                sequence.append("F");
+                                col++;
+                                System.out.println(col);
+                                if (col == exit_col) {
+                                    break;
+                                }
+                            } else {
+                                direction = "down";
+                                sequence.append("L");
+                                sequence.append("F");
+                                row++;
+                            }
+                        }
+                    } else {
+                        direction = "up";
+                        sequence.append("R");
+                        sequence.append("F");
+                        row--;
+                    }
+                } else if (direction.equals("up")) {
+                    if (maze[row][col + 1] == '#') {
+                        if (maze[row - 1][col] == 'P') {
+                            sequence.append("F");
+                            row--;
+                        } else {
+                            if (maze[row][col - 1] == '#') {
+                                direction = "down";
+                                sequence.append("LL");
+                                sequence.append("F");
+                                row++;
+                            } else {
+                                direction = "left";
+                                sequence.append("L");
+                                sequence.append("F");
+                                col--;
+                            }
+                        }
+                    } else {
+                        direction = "right";
+                        sequence.append("R");
+                        sequence.append("F");
+                        col++;
+                        System.out.println(col);
+                        if (col == exit_col) {
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+    
+        System.out.println("loop exited successfully");
+        return sequence.toString(); 
+    }
 }
