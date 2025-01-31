@@ -18,13 +18,14 @@ public class Main {
 
         Options options = new Options();
         options.addOption("i", "input", true, "Path to the maze file");
+        options.addOption("p", "path", true, "Optional user-provided path sequence");
 
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
 
-            if (!cmd.hasOption("i")){
-                logger.error("Misssing required position: -i");
+            if (!cmd.hasOption("i")) {
+                logger.error("Missing required option: -i");
                 System.exit(1);
             }
 
@@ -41,18 +42,27 @@ public class Main {
                     System.out.println();
                 }
             }
-            
-            MazeRunner sequence = new MazeRunner(mazeArray);
-            
+
+            Shortest_MazeRunner sequence = new Shortest_MazeRunner(mazeArray);
+            sequence.find_entrance();
+            sequence.find_exit();
 
             logger.info("**** Computing path");
-            logger.info("sequence of moves is " + sequence.GenerateSequence());
-            logger.info("** End of MazeRunner");
-            
+            String computedSequence = sequence.Add_Sequence();
+            logger.info("Sequence of moves is: " + computedSequence);
 
-        } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            if (cmd.hasOption("p")) {
+                String userSequence = cmd.getOptionValue("p");
+                if (computedSequence.equals(userSequence)) {
+                    logger.info("Correct path entered!");
+                } else {
+                    logger.info("Incorrect path entered.");
+                }
+            }
+
+            logger.info("** End of MazeRunner");
+        } catch (Exception e) {
+            logger.error("/!\\ An error has occurred /!\\", e);
         }
-        
     }
 }
