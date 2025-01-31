@@ -29,4 +29,25 @@ public class Shortest_MazeRunner extends MazeRunner {
         System.out.println(entrance);
     }
 
+    public void find_exit(){
+        exit_row = -1;
+        int exit_count = 0;
+        exit_col = maze[0].length - 1;
+        int rows = maze.length;
+        for(int i = 0; i < rows; i++){
+            if(maze[i][exit_col] == 'P'){
+                exit_row = i;
+                exit_count++;
+            }
+        }
+        if(exit_row == -1){
+            throw new IllegalStateException("No entrance found in first column");
+        }
+        if(exit_count > 1){
+            throw new IllegalStateException("There can only be one entrance");
+        }
+        System.out.println(exit_col);
+        System.out.println(exit_row);
+    } 
+
 }
