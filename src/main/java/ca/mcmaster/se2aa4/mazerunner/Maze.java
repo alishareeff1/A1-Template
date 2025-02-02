@@ -30,7 +30,6 @@ public class Maze {
                 } else {
                     line = line.replace(' ', 'P');
                 }
-                System.out.println("Read line: " + line);
                 char[] lineArray = new char[line.length()];
                 for(int i = 0; i < lineArray.length; i++){
                     if(line.charAt(i) == ' '){
