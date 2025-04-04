@@ -7,11 +7,20 @@ import java.util.List;
 
 
 public class Maze {
+    private static Maze instance;
     private char[][] maze;
     private String MazeFilePath;
 
-    public Maze(String MazeFilePath){
+    private Maze(String MazeFilePath){
         this.MazeFilePath = MazeFilePath;
+        this.maze = makeArray();
+    }
+
+    public static Maze getInstance(String mazeFilePath){
+        if(instance == null){
+            instance = new Maze(mazeFilePath);
+        }
+        return instance;
     }
 
     public char[][]makeArray(){
@@ -41,17 +50,15 @@ public class Maze {
                 mazeList.add(lineArray);
                 
             }
-            reader.close();
-
-            char[][] maze = new char[mazeList.size()][];
-            mazeList.toArray(maze);
-
-            return maze;
+            return mazeList.toArray(new char[0][]);
             
         }  catch (IOException e) {
                 System.out.println("Error reading the file: " + e.getMessage());
                 return null;
         }
         
+    }
+    public char[][] getMaze() {
+        return maze;
     }
 }

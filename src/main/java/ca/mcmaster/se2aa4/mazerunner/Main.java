@@ -32,13 +32,12 @@ public class Main {
             String mazeFilePath = cmd.getOptionValue("i");
             // logger.info("Reading the maze from file: " + mazeFilePath);
 
-            Maze maze = new Maze(mazeFilePath);
-            char[][] mazeArray = maze.makeArray();
+            Maze maze = Maze.getInstance(mazeFilePath);
+            char[][] mazeArray = maze.getMaze();
             Right_Hand_MazeRunner sequence = new Right_Hand_MazeRunner(mazeArray);
+            sequence.addObserver(new LoggerObserver());
             sequence.find_entrance();
             sequence.find_exit();
-
-            // logger.info("**** Computing path");
             String computedSequence = sequence.Add_Sequence();
             Factorized_Path factorized = new Factorized_Path(computedSequence);
             String seq = factorized.Compress_Moves();
